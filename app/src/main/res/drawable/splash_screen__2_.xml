@@ -46,6 +46,6 @@
     </path>
     <path
         android:pathData="M104,402h213.99v102.66h-213.99z"
-        android:fillColor="url(#pattern0)"/>
+        />
   </group>
 </vector>

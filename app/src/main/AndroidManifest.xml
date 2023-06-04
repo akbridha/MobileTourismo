@@ -12,7 +12,8 @@
         android:theme="@style/Theme.Tourismo"
         tools:targetApi="31">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".activity.SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BerandaActivity"
+            android:name=".activity.BerandaActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
