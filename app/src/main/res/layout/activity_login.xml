@@ -87,8 +87,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:textColor="@color/white"
+
+
+            android:background="@drawable/button"
             android:text="@string/Login"
-            android:backgroundTint="@color/dasar"
+
             android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
