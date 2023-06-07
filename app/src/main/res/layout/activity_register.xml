@@ -40,6 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:labelFor="@id/tv_email"
+            android:hint="@string/email"
+            android:textColorHint="@color/grey"
             android:ems="10"
             android:gravity="center_horizontal"
             android:inputType="textEmailAddress" />
@@ -56,6 +58,8 @@
             android:layout_height="50dp"
             android:labelFor="@+id/tv_password"
             android:ems="10"
+            android:hint="@string/password"
+            android:textColorHint="@color/grey"
             android:gravity="center_horizontal"
             android:inputType="textPassword" />
 
@@ -72,16 +76,21 @@
             android:layout_height="50dp"
             android:labelFor="@id/tv_confirm_password"
             android:ems="10"
+            android:hint="@string/password"
+            android:textColorHint="@color/grey"
             android:gravity="center_horizontal"
             android:inputType="textPassword" />
 
 
         <Button
             android:id="@+id/btnRegister"
+            android:layout_marginVertical="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/register"
+            android:textColor="@color/white"
+            android:background="@drawable/button"
             tools:layout_editor_absoluteX="154dp"
             tools:layout_editor_absoluteY="446dp" />
 
