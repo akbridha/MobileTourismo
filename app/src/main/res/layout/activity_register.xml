@@ -23,44 +23,65 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/logo"
-            android:layout_marginBottom="130dp"
+            android:layout_marginBottom="100dp"
             tools:layout_editor_absoluteX="151dp"
             tools:layout_editor_absoluteY="47dp" />
 
 
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/email"
+            android:layout_gravity="start"/>
         <EditText
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-
+            android:labelFor="@id/tv_email"
             android:ems="10"
             android:gravity="center_horizontal"
             android:inputType="textEmailAddress" />
 
+        <TextView
+            android:id="@+id/tv_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:layout_gravity="start"/>
         <EditText
             android:id="@+id/editTextTextNewPass"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:labelFor="@+id/tv_password"
             android:ems="10"
             android:gravity="center_horizontal"
             android:inputType="textPassword" />
 
+
+        <TextView
+            android:id="@+id/tv_confirm_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/konfirmasi_password"
+            android:layout_gravity="start"/>
         <EditText
             android:id="@+id/editTextTextNewPassConfirm"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-
+            android:labelFor="@id/tv_confirm_password"
             android:ems="10"
             android:gravity="center_horizontal"
             android:inputType="textPassword" />
 
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Button"
+            android:text="@string/register"
             tools:layout_editor_absoluteX="154dp"
             tools:layout_editor_absoluteY="446dp" />
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".activity.LoginActivity">
 
 
@@ -18,36 +19,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginBottom="130dp"
+            tools:layout_editor_absoluteX="151dp"
+            tools:layout_editor_absoluteY="47dp" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="@string/email"
+            android:textColor="@color/grey"
+            />
+
+
+
         <EditText
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="200dp"
+            android:layout_height="40dp"
             android:ems="10"
-
+            android:hint="@string/email"
+            android:labelFor="@+id/tv_email"
+            android:autofillHints="emailAddress"
             android:gravity="center_horizontal"
             android:inputType="textEmailAddress"
             android:layout_gravity="center_horizontal"
           />
 
+
+        <TextView
+            android:id="@+id/tv_password"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/password"
+            android:textColor="@color/grey"
+            />
         <EditText
             android:id="@+id/editTextTextPassword"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="40dp"
             android:gravity="center_horizontal"
             android:ems="10"
+            android:labelFor="@+id/tv_password"
             android:inputType="textPassword"
+            android:hint="@string/password"
             android:autofillHints="Password"
             android:layout_gravity="center_horizontal"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="72dp"
-            android:text="TextView"
-            android:layout_gravity="center_horizontal"/>
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="72dp"-->
+<!--            android:text="TextView"-->
+<!--            android:layout_gravity="center_horizontal"/>-->
 
         <Button
             android:id="@+id/button"
@@ -55,6 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@string/Login"
+            android:backgroundTint="@color/dasar"
             android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
@@ -66,16 +100,17 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="@string/belum_punya_akun" />
 
             <TextView
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-
-                android:text="@string/register" />
+                android:layout_marginStart="10dp"
+                android:text="@string/register"
+                android:textColor="@color/blue"
+                android:clickable="true"
+                />
         </LinearLayout>
 
     </LinearLayout>
