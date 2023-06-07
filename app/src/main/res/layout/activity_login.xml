@@ -43,7 +43,7 @@
         <EditText
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:ems="10"
             android:hint="@string/email"
             android:labelFor="@+id/tv_email"
@@ -65,7 +65,7 @@
         <EditText
             android:id="@+id/editTextTextPassword"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:gravity="center_horizontal"
             android:ems="10"
             android:labelFor="@+id/tv_password"
@@ -109,7 +109,7 @@
             <TextView
                 android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginStart="10dp"
                 android:text="@string/register"
                 android:textColor="@color/blue"
