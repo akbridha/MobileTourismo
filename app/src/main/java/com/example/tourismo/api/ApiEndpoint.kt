@@ -19,6 +19,13 @@ interface ApiEndpoint {
 
 
     ): Call<ApiResponse>
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST("login")
+    fun loginUser(
+    @Body requestBody: RequestBody
+
+
+    ): Call<ApiResponse>
 
 //    //Untuk Pencarian User
 //    @GET("search/users")

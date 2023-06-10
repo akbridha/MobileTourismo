@@ -28,40 +28,18 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            RegisterViewModel::class.java)
-        binding.tvLogin.setOnClickListener{
-            startActivity( Intent(this, LoginActivity::class.java))
-            finish()
-            overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
-        }
-        binding.btnRegister.setOnClickListener{
-//            cekdulu sdh diisi atau belum lalu cek format isinya
-            if (isAllEditTextFilled()){
-                Log.d("RegisterAct","Semua Edittext sudah diisi")
-                if(cekEdittext()){
-                    val email = binding.editTextTextEmailAddress.text.toString().trim()
-                    val password = binding.editTextTextNewPass.text.toString().trim()
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(RegisterViewModel::class.java)
+        binding.tvLogin.setOnClickListener{pindahActivityLogin()}
+        binding.btnRegister.setOnClickListener{prosesRegister()}
 
-                    viewModel.registerUser(email,password)
 
-                    Log.d("RegisterAct","Run viewModel.registerUser(email,pass)")
-                    Log.d("RegisterAct","Mengirim Post Ke API")
-
-                }else{
-                    Log.d("RegisterAct","Input Password tidak sama")
-                }
-            }
-            else{
-                Log.d("RegisterAct","ada Edittext yang belum diisi")
-            }
-        }
 
         viewModel.getRegisterStatus().observe(this) { isSuccess ->
             if (isSuccess) {
                 // Registrasi berhasil
                 Log.d("RegisterAct", "Registrasi berhasil")
                 Toast.makeText(this,"Registrasi Berhasil",Toast.LENGTH_SHORT).show()
+                pindahActivityLogin()
             } else {
                 // Registrasi gagal
                 Log.d("RegisterAct", "Registrasi gagal")
@@ -72,10 +50,52 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this,"Registrasi gagal",Toast.LENGTH_SHORT).show()
             }
         }
-//        viewModel.getStatusRegister()
+
 
     }//onCreate
 
+    private fun prosesRegister() {
+        // cekdulu sdh diisi atau belum lalu cek format isinya
+        val editTexts = listOf(
+            binding.editTextTextEmailAddress,
+            binding.editTextTextNewPass
+        )
+
+        var hasEmptyField = false
+
+        for (editText in editTexts) {
+            if (TextUtils.isEmpty(editText.text)) {
+                editText.requestFocus()
+                editText.error = "Kolom tidak diisi"
+                editText.contentDescription = "Harap isi semua kolom"
+                hasEmptyField = true
+            }
+        }
+
+        if (hasEmptyField) {
+            Log.d("RegisterAct", "Ada Edittext yang belum diisi")
+            return
+        }
+
+        Log.d("RegisterAct", "Semua Edittext sudah diisi")
+        if (cekEdittext()) {
+            kirimData()
+            Log.d("RegisterAct", "Run viewModel.registerUser(email,pass)")
+        } else {
+            Log.d("RegisterAct", "Input Password tidak sama")
+        }
+    }
+    private fun kirimData() {
+        val email = binding.editTextTextEmailAddress.text.toString().trim()
+        val password = binding.editTextTextNewPass.text.toString().trim()
+        viewModel.registerUser(email, password)
+        Log.d("RegisterAct", "Mengirim Post Ke API")
+    }
+    private fun pindahActivityLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+    }
     private fun cekEdittext(): Boolean {
             //Mengambil Email
             val email = binding.editTextTextEmailAddress.text.toString().trim()
