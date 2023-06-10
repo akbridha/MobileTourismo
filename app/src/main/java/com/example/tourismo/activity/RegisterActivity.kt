@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
 import com.example.tourismo.api.ApiEndpoint
@@ -22,7 +23,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegisterBinding
     private lateinit var viewModel: RegisterViewModel
 
-
     private val apiService: ApiEndpoint = RetrofitClient.apiInstance
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,37 +30,51 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
             RegisterViewModel::class.java)
-
-
         binding.tvLogin.setOnClickListener{
             startActivity( Intent(this, LoginActivity::class.java))
             finish()
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
         }
         binding.btnRegister.setOnClickListener{
-
-
-            sendDataToApi()
 //            cekdulu sdh diisi atau belum lalu cek format isinya
-//            if (isAllEditTextFilled()){
-//                Log.d("RegisterAct","Semua Edittext sudah diisi")
-//                if(cekEdittext()){
-//                    val email = binding.editTextTextEmailAddress.text.toString().trim()
-//                    val password = binding.editTextTextNewPass.text.toString().trim()
-//
-//                    viewModel.registerUser(email,password)
-//
-//                    Log.d("RegisterAct","Mengirim Post Ke API")
-//
-//                }else{
-//                    Log.d("RegisterAct","Input Password tidak sama")
-//                }
-//            }
-//            else{
-//                Log.d("RegisterAct","ada Edittext yang belum diisi")
-//            }
+            if (isAllEditTextFilled()){
+                Log.d("RegisterAct","Semua Edittext sudah diisi")
+                if(cekEdittext()){
+                    val email = binding.editTextTextEmailAddress.text.toString().trim()
+                    val password = binding.editTextTextNewPass.text.toString().trim()
+
+                    viewModel.registerUser(email,password)
+
+                    Log.d("RegisterAct","Run viewModel.registerUser(email,pass)")
+                    Log.d("RegisterAct","Mengirim Post Ke API")
+
+                }else{
+                    Log.d("RegisterAct","Input Password tidak sama")
+                }
+            }
+            else{
+                Log.d("RegisterAct","ada Edittext yang belum diisi")
+            }
         }
-    }
+
+        viewModel.getRegisterStatus().observe(this) { isSuccess ->
+            if (isSuccess) {
+                // Registrasi berhasil
+                Log.d("RegisterAct", "Registrasi berhasil")
+                Toast.makeText(this,"Registrasi Berhasil",Toast.LENGTH_SHORT).show()
+            } else {
+                // Registrasi gagal
+                Log.d("RegisterAct", "Registrasi gagal")
+                viewModel.getErrorMessage().observe(this) { errorMessage ->
+                Toast.makeText(this,errorMessage,Toast.LENGTH_SHORT).show()
+                    Log.d("RegisterAct", "Pesan error: $errorMessage")
+                }
+                Toast.makeText(this,"Registrasi gagal",Toast.LENGTH_SHORT).show()
+            }
+        }
+//        viewModel.getStatusRegister()
+
+    }//onCreate
 
     private fun cekEdittext(): Boolean {
             //Mengambil Email
@@ -91,14 +105,11 @@ class RegisterActivity : AppCompatActivity() {
             }
 
     }
-
     private fun isAllEditTextFilled(): Boolean {
         return !TextUtils.isEmpty(binding.editTextTextEmailAddress.text) &&
                 !TextUtils.isEmpty(binding.editTextTextNewPass.text) &&
                 !TextUtils.isEmpty(binding.editTextTextNewPassConfirm.text)
     }
-
-
     private fun sendDataToApi() {
         Log.d("RegisterAct", "sendatatoapi")
         val json = """
@@ -120,8 +131,7 @@ class RegisterActivity : AppCompatActivity() {
                     // Tangkap pesan error dari response.errorBody() sebagai string
                     val errorResponse: String? = response.errorBody()?.string()
                     Log.d("Response", "Request failed "+ errorResponse.toString())
-                    Log.d("Response", "Request failed "+ errorResponse.toString())
-                    Log.d("Response", "Request failed "+ errorResponse.toString())
+
                 }
             }
 
