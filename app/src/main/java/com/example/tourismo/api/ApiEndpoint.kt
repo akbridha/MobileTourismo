@@ -2,7 +2,7 @@ package com.example.tourismo.api
 
 
 import com.example.tourismo.api.response.ApiResponse
-import com.example.tourismo.api.response.RegisterResponse
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -26,6 +26,14 @@ interface ApiEndpoint {
 
 
     ): Call<ApiResponse>
+
+
+    @Multipart
+    @POST("insertImage.php") // Ganti dengan URL endpoint sesuai dengan API Anda
+    fun uploadPhoto(
+        @Part image: MultipartBody.Part
+    ): Call<ApiResponse>
+
 
 //    //Untuk Pencarian User
 //    @GET("search/users")
