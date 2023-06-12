@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
@@ -23,11 +24,13 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener {prosesLogin()}
         binding.tvRegister.setOnClickListener{ pindahActivityRegister()}
 
+        tandaLoading(false)
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
             LoginViewModel::class.java)
 
         viewModel.getLoginStatus().observe(this) { isSuccess ->
+            tandaLoading(false)
             if (isSuccess) {
                 // Login berhasil
                 Log.d("LoginAct", "Login berhasil")
@@ -62,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
     }
     private fun prosesLogin() {
+
         // cekdulu sdh diisi atau belum lalu cek format isinya
         val editTexts = listOf(binding.editTextTextEmailAddress, binding.editTextTextPassword)
         var hasEmptyField = false
@@ -79,6 +83,7 @@ class LoginActivity : AppCompatActivity() {
             Log.d("RegisterAct", "Semua Edittext sudah diisi")
             if (cekEdittext()) {
                 kirimData()
+                tandaLoading(true)
                 Log.d("RegisterAct", "Run viewModel.registerUser(email,pass)")
             } else {
                 Log.d("RegisterAct", "Input Password tidak sama")
@@ -117,5 +122,9 @@ class LoginActivity : AppCompatActivity() {
 
         return !TextUtils.isEmpty(binding.editTextTextEmailAddress.text) &&
                 !TextUtils.isEmpty(binding.editTextTextPassword.text)
+    }
+
+    private fun tandaLoading(status: Boolean) {
+        binding.progressBar.visibility = if (status) View.VISIBLE else View.INVISIBLE
     }
 }

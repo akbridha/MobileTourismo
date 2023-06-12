@@ -12,13 +12,13 @@
     >
 
 
-
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="10dp"
         android:layout_marginHorizontal="10dp"
         android:orientation="vertical"
+        android:paddingHorizontal="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"
@@ -30,8 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/logo"
             android:layout_marginBottom="100dp"
+            app:srcCompat="@drawable/logo"
             tools:layout_editor_absoluteX="151dp"
             tools:layout_editor_absoluteY="47dp" />
 
@@ -40,94 +40,97 @@
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:layout_gravity="start"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/border1px">
-        <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:layout_gravity="start"
+            android:text="@string/email" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:labelFor="@id/tv_email"
-            android:hint="@string/email"
-            android:textColorHint="@color/grey"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/border1px"
+            android:paddingHorizontal="15dp">
+
+            <EditText
+                android:id="@+id/editTextTextEmailAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:labelFor="@id/tv_email"
+                android:textColorHint="@color/grey" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/password"
-            android:layout_gravity="start"/>
+            android:layout_gravity="start"
+            android:text="@string/password" />
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/border1px">
-        <EditText
-            android:id="@+id/editTextTextNewPass"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:labelFor="@+id/tv_password"
-            android:ems="10"
-            android:hint="@string/password"
-            android:textColorHint="@color/grey"
-             />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/border1px"
+            android:paddingHorizontal="15dp">
+
+            <EditText
+                android:id="@+id/editTextTextNewPass"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="@string/password"
+                android:labelFor="@+id/tv_password"
+                android:textColorHint="@color/grey" />
+        </LinearLayout>
 
 
         <TextView
             android:id="@+id/tv_confirm_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/konfirmasi_password"
-            android:layout_gravity="start"/>
+            android:layout_gravity="start"
+            android:text="@string/konfirmasi_password" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="15dp"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/border1px">
+            android:background="@drawable/border1px"
+            android:paddingHorizontal="15dp">
+
             <EditText
-            android:id="@+id/editTextTextNewPassConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:labelFor="@id/tv_confirm_password"
-            android:ems="10"
-            android:hint="@string/password"
-            android:textColorHint="@color/grey"
-             />
+                android:id="@+id/editTextTextNewPassConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="@string/password"
+                android:labelFor="@id/tv_confirm_password"
+                android:textColorHint="@color/grey" />
         </LinearLayout>
 
 
         <Button
             android:id="@+id/btnRegister"
-            android:layout_marginVertical="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="30dp"
+            android:background="@drawable/button"
             android:text="@string/register"
             android:textColor="@color/white"
-            android:background="@drawable/button"
             tools:layout_editor_absoluteX="154dp"
             tools:layout_editor_absoluteY="446dp" />
 
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginVertical="30dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="30dp"
+            android:orientation="horizontal">
 
             <TextView
 
@@ -140,16 +143,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="10dp"
-                android:text="@string/sign_in"
-                android:textColor="@color/blue"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"
+                android:text="@string/sign_in"
+                android:textColor="@color/blue" />
         </LinearLayout>
 
 
     </LinearLayout>
 
-
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="66dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

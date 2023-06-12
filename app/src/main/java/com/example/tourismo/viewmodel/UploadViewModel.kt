@@ -43,7 +43,7 @@ class UploadViewModel : ViewModel() {
         val requestFile: RequestBody =
             RequestBody.create(MediaType.parse("image/*"), file)
         val body: MultipartBody.Part =
-            MultipartBody.Part.createFormData("image", file.name, requestFile)
+            MultipartBody.Part.createFormData("gambar", file.name, requestFile)
 
         apiService.uploadPhoto(body).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
@@ -51,7 +51,7 @@ class UploadViewModel : ViewModel() {
                     val apiResponse = response.body()
                     Log.d("VM Upload", "respons = $apiResponse")
                     val uid = apiResponse?.uid
-                    Log.d("VM register", "apakah uid kosong ? ${uid.isNullOrEmpty()}")
+                    Log.d("VM upload", "apakah uid kosong ? ${uid.isNullOrEmpty()}")
                     if (uid.isNullOrEmpty()){
                         val errmessage = apiResponse?.errorCode
                         errorMessage.value = errmessage
@@ -66,7 +66,7 @@ class UploadViewModel : ViewModel() {
                 {
                     // Tangkap pesan error dari response.errorBody() sebagai string
                     val errorResponse: String? = response.errorBody()?.string()
-                    Log.d("VM Regis", "Request failed "+ errorResponse.toString())
+                    Log.d("VM upload", "Request failed "+ errorResponse.toString())
                   uploadStatus.value = false
                     errorMessage.value = errorResponse.toString()
 
@@ -74,7 +74,7 @@ class UploadViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                Log.d("VM Register", "Request failed: ${t.message}")
+                Log.d("VM Upload on failure", "Request failed: ${t.message}")
                 uploadStatus.value = false
                 errorMessage.value = t.message.toString()
             }

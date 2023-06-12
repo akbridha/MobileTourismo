@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
@@ -31,14 +32,15 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(RegisterViewModel::class.java)
         binding.tvLogin.setOnClickListener{pindahActivityLogin()}
         binding.btnRegister.setOnClickListener{prosesRegister()}
-
+        tandaLoading(false)
 
 
         viewModel.getRegisterStatus().observe(this) { isSuccess ->
+            tandaLoading(false)
             if (isSuccess) {
                 // Registrasi berhasil
                 Log.d("RegisterAct", "Registrasi berhasil")
-                Toast.makeText(this,"Registrasi Berhasil",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Registrasi Berhasil, Silahkan Login dengan akun baru",Toast.LENGTH_SHORT).show()
                 pindahActivityLogin()
             } else {
                 // Registrasi gagal
@@ -55,6 +57,8 @@ class RegisterActivity : AppCompatActivity() {
     }//onCreate
 
     private fun prosesRegister() {
+
+
         // cekdulu sdh diisi atau belum lalu cek format isinya
         val editTexts = listOf(
             binding.editTextTextEmailAddress,
@@ -86,6 +90,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
     private fun kirimData() {
+        tandaLoading(true)
         val email = binding.editTextTextEmailAddress.text.toString().trim()
         val password = binding.editTextTextNewPass.text.toString().trim()
         viewModel.registerUser(email, password)
@@ -130,35 +135,13 @@ class RegisterActivity : AppCompatActivity() {
                 !TextUtils.isEmpty(binding.editTextTextNewPass.text) &&
                 !TextUtils.isEmpty(binding.editTextTextNewPassConfirm.text)
     }
-    private fun sendDataToApi() {
-        Log.d("RegisterAct", "sendatatoapi")
-        val json = """
-            {
-                "email": "dur11@daxa.com",
-                "password": "1234Af"
-            }
-        """.trimIndent()
 
-        val requestBody = RequestBody.create(MediaType.parse("application/json"), json)
 
-        apiService.registerUser(requestBody).enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-//                    apiResponse?.message?.let { Log.d("Response", it) }
-                    Log.d("Response", "$apiResponse")
-                } else {
-                    // Tangkap pesan error dari response.errorBody() sebagai string
-                    val errorResponse: String? = response.errorBody()?.string()
-                    Log.d("Response", "Request failed "+ errorResponse.toString())
 
-                }
-            }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                Log.d("Response", "Request failed: ${t.message}")
-            }
-        })
+
+    private fun tandaLoading(status: Boolean) {
+        binding.progressBar3.visibility = if (status) View.VISIBLE else View.INVISIBLE
     }
 
 }
