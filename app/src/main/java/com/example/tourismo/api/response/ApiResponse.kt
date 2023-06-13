@@ -2,6 +2,7 @@ package com.example.tourismo.api.response
 
 data class ApiResponse(
 
+
     val uid: String,
     val email: String,
     val emailVerified: Boolean,
@@ -14,7 +15,7 @@ data class ApiResponse(
     val appName: String,
     val errorCode : String
 )
-data class ErrorResponse(
-    val error: String
-    //tidak terpakai karena API tidak main di response code
-)
+//data class ErrorResponse(
+//    val error: String
+//tidak terpakai karena API tidak main di response code
+//)

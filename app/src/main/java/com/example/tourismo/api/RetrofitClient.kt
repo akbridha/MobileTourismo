@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL = "https://tourismobe-mugv7adrmq-uc.a.run.app/api/"
+//    private const val BASE_URL = "https://tourismoimage-mugv7adrmq-uc.a.run.app/"
 
 //    private const val BASE_URL = "https://rentalzeus.000webhostapp.com/"
 

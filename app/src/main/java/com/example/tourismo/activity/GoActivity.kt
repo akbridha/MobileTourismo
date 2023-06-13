@@ -1,5 +1,6 @@
 package com.example.tourismo.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,7 +33,18 @@ class GoActivity : AppCompatActivity() {
 
     adapter = StringAdapter(dataList)
     binding.recyclerView.adapter = adapter
+
+    binding.buttonGO.setOnClickListener {
+        pindahActivity()
+    }
 }
+
+    private fun pindahActivity() {
+        startActivity(Intent(this, Upload_activity::class.java))
+        finish()
+        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+    }
+
 
     private inner class StringAdapter(private val dataList: List<ItemModel>) : RecyclerView.Adapter<StringViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder {
