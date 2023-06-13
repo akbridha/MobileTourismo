@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tourismo.R
@@ -24,23 +25,32 @@ class GoActivity : AppCompatActivity() {
         binding = ActivityGoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+    val color = ContextCompat.getColor(this, R.color.dasar)
+    binding.btnHome.setColorFilter(color)
     binding.recyclerView.setHasFixedSize(true)
-
     layoutManager = LinearLayoutManager(this)
     binding.recyclerView.layoutManager = layoutManager
 
+    binding.btnSearch.setOnClickListener{
+        pindahActivity("search")
+    }
+    binding.btnProfile.setOnClickListener {
+        pindahActivity("profil")
+    }
     val dataList = getListOfItems() // Mendapatkan data daftar string
 
     adapter = StringAdapter(dataList)
     binding.recyclerView.adapter = adapter
 
-    binding.buttonGO.setOnClickListener {
-        pindahActivity()
-    }
 }
 
-    private fun pindahActivity() {
-        startActivity(Intent(this, Upload_activity::class.java))
+    private fun pindahActivity(direction: String) {
+        val intent: Intent = when (direction) {
+            "search" -> Intent(this, Upload_activity::class.java)
+            "profil" -> Intent(this, ProfilActivity::class.java)
+            else -> Intent(this, GoActivity::class.java) // Activity default jika arah tidak valid
+        }
+        startActivity(intent)
         finish()
         overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
     }

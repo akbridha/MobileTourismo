@@ -10,4 +10,6 @@
     <string name="masukkan_email">Masukkan Email anda</string>
     <string name="sudah_punya_akun">Sudah punya akun ?</string>
     <string name="sign_in">Sign In</string>
+    <string name="find">Find</string>
+    <string name="Instruksi">Upload your Photo, \n Take or Select from storage</string>
 </resources>

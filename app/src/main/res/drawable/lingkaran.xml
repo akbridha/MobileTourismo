@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke
+        android:color="#DBDDDD"
+    android:width="2dp" /> <!-- Lebar garis tepi -->
+    <solid android:color="@android:color/transparent" />
+
+    <corners android:radius="200dp" /> <!-- Jari-jari lingkaran -->
+</shape>
