@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
 
         if (isUserLoggedIn()) {
             Log.d("LoginAct", "SF masih ada.. user sdh pernah login")
@@ -60,7 +61,9 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+
     }
+
 
     private fun simpanDataUser() {
 
@@ -96,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
     private fun pindahActivityBeranda() {
         startActivity(Intent(this, GoActivity::class.java))
         finish()
-        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
     }
 
     private fun pindahActivityRegister() {

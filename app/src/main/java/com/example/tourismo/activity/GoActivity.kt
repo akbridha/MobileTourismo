@@ -25,6 +25,7 @@ class GoActivity : AppCompatActivity() {
         binding = ActivityGoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
     val color = ContextCompat.getColor(this, R.color.dasar)
     binding.btnHome.setColorFilter(color)
     binding.recyclerView.setHasFixedSize(true)
@@ -45,14 +46,30 @@ class GoActivity : AppCompatActivity() {
 }
 
     private fun pindahActivity(direction: String) {
-        val intent: Intent = when (direction) {
-            "search" -> Intent(this, Upload_activity::class.java)
-            "profil" -> Intent(this, ProfilActivity::class.java)
-            else -> Intent(this, GoActivity::class.java) // Activity default jika arah tidak valid
+        val animIn = when (direction) {
+        "profil" -> R.anim.slide_in_right
+        "search" -> R.anim.slide_in_right
+
+        else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
+    }
+
+        val animOut = when (direction) {
+            "profil" -> R.anim.slide_out_left
+            "search" -> R.anim.slide_out_left
+
+            else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
         }
+
+        val intent = when (direction) {
+            "profil" -> Intent(this, ProfilActivity::class.java)
+            "search" -> Intent(this, Upload_activity::class.java)
+
+            else -> Intent(this, GoActivity()::class.java) // Activity default jika arah tidak valid
+        }
+
         startActivity(intent)
         finish()
-        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
+        overridePendingTransition(animIn, animOut)
     }
 
 

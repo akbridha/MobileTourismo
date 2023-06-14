@@ -65,7 +65,7 @@ class ProfilActivity : AppCompatActivity() {
                     clearSharedPreferences()
                     // Lakukan tindakan yang sesuai setelah logout, misalnya pindah ke halaman login
                     Toast.makeText(this,"Proses Log out", Toast.LENGTH_SHORT).show()
-                    pindahActivityLogin()
+                    pindahActivity("login")
                 }
             }
         }
@@ -77,10 +77,7 @@ class ProfilActivity : AppCompatActivity() {
 
     }
 
-    private fun pindahActivityLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
 
-    }
 
     private fun clearSharedPreferences() {
         val sharedPreferences = getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
@@ -95,13 +92,29 @@ class ProfilActivity : AppCompatActivity() {
     }
 
     private fun pindahActivity(direction: String) {
-        val intent: Intent = when (direction) {
+        val animIn = when (direction) {
+            "search" -> R.anim.slide_in_left
+            "home" -> R.anim.slide_in_left
+            "login" -> R.anim.slide_in_down
+            else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
+        }
+
+        val animOut = when (direction) {
+            "search" -> R.anim.slide_out_right
+            "home" -> R.anim.slide_out_right
+            "login" -> R.anim.slide_out_up
+            else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
+        }
+
+        val intent = when (direction) {
             "search" -> Intent(this, Upload_activity::class.java)
             "home" -> Intent(this, GoActivity::class.java)
+            "login" -> Intent(this, LoginActivity::class.java)
             else -> Intent(this, GoActivity::class.java) // Activity default jika arah tidak valid
         }
+
         startActivity(intent)
         finish()
-        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
+        overridePendingTransition(animIn, animOut)
     }
 }

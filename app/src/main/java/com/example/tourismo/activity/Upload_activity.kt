@@ -106,14 +106,30 @@ class Upload_activity : AppCompatActivity() {
     }
 
     private fun pindahActivity(direction: String) {
-        val intent: Intent = when (direction) {
+        val animIn = when (direction) {
+            "home" -> R.anim.slide_in_left
+            "profil" -> R.anim.slide_in_right
+
+            else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
+        }
+
+        val animOut = when (direction) {
+            "home" -> R.anim.slide_out_right
+            "profil" -> R.anim.slide_out_left
+
+            else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
+        }
+
+        val intent = when (direction) {
             "home" -> Intent(this, GoActivity::class.java)
             "profil" -> Intent(this, ProfilActivity::class.java)
-            else -> Intent(this, GoActivity::class.java) // Activity default jika arah tidak valid
+
+            else -> Intent(this, Upload_activity()::class.java) // Activity default jika arah tidak valid
         }
+
         startActivity(intent)
         finish()
-        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
+        overridePendingTransition(animIn, animOut)
     }
     private fun uploadPhoto() {
         if (imageFile != null) {
