@@ -22,7 +22,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".activity.Upload_activity"
+            android:name=".activity.ImgdetectActivity"
             android:exported="true">
 
         </activity>

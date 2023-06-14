@@ -1,15 +1,11 @@
 package com.example.tourismo.viewmodel
 
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tourismo.api.ApiEndpoint
-import com.example.tourismo.api.response.ApiResponse
 import com.example.tourismo.api.response.UploadResponse
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -21,7 +17,7 @@ import java.io.File
 
 
 
-class UploadViewModel : ViewModel() {
+class ImgdetViewModel : ViewModel() {
 
     private val apiService: ApiEndpoint = RetrofitClient.apiInstance
     private val errorMessage = MutableLiveData<String>()

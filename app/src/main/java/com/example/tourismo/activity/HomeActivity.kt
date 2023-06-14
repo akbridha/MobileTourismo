@@ -62,7 +62,7 @@ class GoActivity : AppCompatActivity() {
 
         val intent = when (direction) {
             "profil" -> Intent(this, ProfilActivity::class.java)
-            "search" -> Intent(this, Upload_activity::class.java)
+            "search" -> Intent(this, ImgdetectActivity::class.java)
 
             else -> Intent(this, GoActivity()::class.java) // Activity default jika arah tidak valid
         }

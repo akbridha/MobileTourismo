@@ -20,17 +20,17 @@ import com.example.tourismo.R
 
 
 import com.example.tourismo.databinding.ActivityUploadBinding
-import com.example.tourismo.viewmodel.UploadViewModel
+import com.example.tourismo.viewmodel.ImgdetViewModel
 import java.io.File
 import java.io.IOException
 
 
 
 
-class Upload_activity : AppCompatActivity() {
+class ImgdetectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUploadBinding
     private var imageFile: File? = null
-    private lateinit var viewModel: UploadViewModel
+    private lateinit var viewModel: ImgdetViewModel
 
     private val READ_EXTERNAL_STORAGE_PERMISSION_REQUEST = 2
 
@@ -54,7 +54,7 @@ class Upload_activity : AppCompatActivity() {
         val color = ContextCompat.getColor(this, R.color.dasar)
         binding.btnSearch.setColorFilter(color)
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            UploadViewModel::class.java
+            ImgdetViewModel::class.java
         )
 
 
@@ -124,7 +124,7 @@ class Upload_activity : AppCompatActivity() {
             "home" -> Intent(this, GoActivity::class.java)
             "profil" -> Intent(this, ProfilActivity::class.java)
 
-            else -> Intent(this, Upload_activity()::class.java) // Activity default jika arah tidak valid
+            else -> Intent(this, ImgdetectActivity()::class.java) // Activity default jika arah tidak valid
         }
 
         startActivity(intent)
