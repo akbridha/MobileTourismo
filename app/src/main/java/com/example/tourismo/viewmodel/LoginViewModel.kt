@@ -17,12 +17,14 @@ class LoginViewModel : ViewModel(){
     private val errorMessage = MutableLiveData<String>()
     private val apiService: ApiEndpoint = RetrofitClient.apiInstance
 
+    private val apiResponse = MutableLiveData<ApiResponse>()
 
 
 
     fun loginUser(email: String, password: String) {
 
         Log.d("LoginAct", "sendatatoapi")
+
         val json = """
         {
             "email": "$email",
@@ -35,12 +37,12 @@ class LoginViewModel : ViewModel(){
         apiService.loginUser(requestBody).enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    Log.d("VM login", "respons = $apiResponse")
-                    val uid = apiResponse?.uid
-                    Log.d("VM login", "apakah uid kosong ? ${uid.isNullOrEmpty()}")
-                    if (uid.isNullOrEmpty()){
-                        val errmessage = apiResponse?.errorCode
+                    val onResponseData = response.body()
+                    Log.d("VM login", "respons = $onResponseData")
+
+                    Log.d("VM login", "apakah uid kosong ? ${ onResponseData?.uid.isNullOrEmpty()}")
+                    if ( onResponseData?.uid.isNullOrEmpty()){
+                        val errmessage = onResponseData?.errorCode
                         errorMessage.value = errmessage
                         Log.d("VM Login User", "response tidak terdapat uid, dan response errornya dalah $errmessage")
                         Log.d("VM login", "Login Gagal")
@@ -48,6 +50,7 @@ class LoginViewModel : ViewModel(){
                     }else{
                         Log.d("VM login", "Login Sukses")
                         loginStatus.value = true
+                        setApiResponse(onResponseData)
                     }
                 } else {
                     // Tangkap pesan error dari response.errorBody() sebagai string
@@ -67,11 +70,20 @@ class LoginViewModel : ViewModel(){
 
     }
 
+    private fun setApiResponse(onResponseData: ApiResponse?) {
+
+        apiResponse.value = onResponseData
+    }
+
     fun getLoginStatus(): LiveData<Boolean> {
         return loginStatus
     }
 
     fun getErrorMessage(): LiveData<String> {
         return errorMessage
+    }
+
+    fun getApiResponse(): LiveData<ApiResponse> {
+        return apiResponse
     }
 }

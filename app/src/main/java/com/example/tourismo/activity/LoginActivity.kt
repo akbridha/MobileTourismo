@@ -1,5 +1,6 @@
 package com.example.tourismo.activity
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,8 +8,10 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
+import com.example.tourismo.api.response.ApiResponse
 import com.example.tourismo.databinding.ActivityLoginBinding
 import com.example.tourismo.viewmodel.LoginViewModel
 
@@ -21,7 +24,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonLogin.setOnClickListener {prosesLogin()}
+        if (isUserLoggedIn()) {
+            Log.d("LoginAct", "SF masih ada.. user sdh pernah login")
+            pindahActivityBeranda()
+        }else {
+            Log.d("LoginAct", "SF masih Kosong.. User belum pernah login")
+        }
+            binding.buttonLogin.setOnClickListener {prosesLogin()}
         binding.tvRegister.setOnClickListener{ pindahActivityRegister()}
 
         tandaLoading(false)
@@ -35,11 +44,12 @@ class LoginActivity : AppCompatActivity() {
                 // Login berhasil
                 Log.d("LoginAct", "Login berhasil")
                 Toast.makeText(this,"Login Berhasil",Toast.LENGTH_SHORT).show()
-                // Tambahkan kode untuk pindah ke halaman berikutnya setelah login sukses
-                pindahActivityBeranda()
+
+                simpanDataUser()
             } else {
                 // Login gagal
                 Log.d("LoginAct", "Login gagal")
+//                nampilin pesan errornya
                 viewModel.getErrorMessage().observe(this) { errorMessage ->
                     Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                     Log.d("LoginAct", "Pesan error: $errorMessage")
@@ -51,6 +61,37 @@ class LoginActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun simpanDataUser() {
+
+        viewModel.getApiResponse().observe(this) { response ->
+
+
+
+            Log.d("LoginACt", "hasil response email $response")
+            saveResponseToSf(response)
+        }
+
+//        nyimpan ke sharenPref supaya user tidak login berkali-kali kalo sdh pernah login.
+    }
+
+    private fun saveResponseToSf(response: ApiResponse?) {
+        val sharedPreferences = getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        if (response != null) {
+            editor.putString("email", response.email)
+        }
+        // Tambahkan kode ini untuk menyimpan atribut lain dari response
+        if (response != null) {
+            editor.putString("uid", response.uid)
+        }
+        if (response != null) {
+            editor.putBoolean("emailVerified", response.emailVerified)
+        }
+        // Tambahkan atribut lain yang perlu disimpan
+        editor.commit()
+        pindahActivityBeranda()
     }
 
     private fun pindahActivityBeranda() {
@@ -126,5 +167,10 @@ class LoginActivity : AppCompatActivity() {
 
     private fun tandaLoading(status: Boolean) {
         binding.progressBar.visibility = if (status) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun isUserLoggedIn(): Boolean {
+        val sharedPreferences = getSharedPreferences("MySharedPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.contains("email")
     }
 }

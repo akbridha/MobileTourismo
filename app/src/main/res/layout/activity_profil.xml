@@ -6,6 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".activity.ProfilActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:hint="Email@example.fck" />
+
+    <ListView
+        android:id="@+id/listView"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+  />
+    </LinearLayout>
 
 
     <LinearLayout
