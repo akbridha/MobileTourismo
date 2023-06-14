@@ -52,7 +52,7 @@ class GoActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
     }
 
 

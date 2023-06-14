@@ -10,14 +10,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
 import com.example.tourismo.api.ApiEndpoint
-import com.example.tourismo.api.response.ApiResponse
 import com.example.tourismo.databinding.ActivityRegisterBinding
 import com.example.tourismo.viewmodel.RegisterViewModel
-import okhttp3.MediaType
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -99,7 +93,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun pindahActivityLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
-        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
     }
     private fun cekEdittext(): Boolean {
             //Mengambil Email

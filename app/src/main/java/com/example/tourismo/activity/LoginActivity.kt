@@ -8,7 +8,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
 import com.example.tourismo.api.response.ApiResponse
@@ -97,13 +96,13 @@ class LoginActivity : AppCompatActivity() {
     private fun pindahActivityBeranda() {
         startActivity(Intent(this, GoActivity::class.java))
         finish()
-        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
     }
 
     private fun pindahActivityRegister() {
         startActivity(Intent(this, RegisterActivity::class.java))
         finish()
-        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
     }
     private fun prosesLogin() {
 

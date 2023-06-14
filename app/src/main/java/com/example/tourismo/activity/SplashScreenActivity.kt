@@ -16,7 +16,7 @@ class SplashScreenActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
 
             finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_up)
         }, 3000)
     }
 }

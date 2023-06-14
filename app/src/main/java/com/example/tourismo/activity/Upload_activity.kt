@@ -11,27 +11,16 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
-import com.example.tourismo.api.ApiEndpoint
-import com.example.tourismo.api.response.ApiResponse
 
 
 import com.example.tourismo.databinding.ActivityUploadBinding
-import com.example.tourismo.viewmodel.RegisterViewModel
 import com.example.tourismo.viewmodel.UploadViewModel
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 import java.io.File
 import java.io.IOException
 
@@ -124,7 +113,7 @@ class Upload_activity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-        overridePendingTransition(R.anim.slide_out, R.anim.slide_in_left)
+        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
     }
     private fun uploadPhoto() {
         if (imageFile != null) {
