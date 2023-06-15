@@ -3,7 +3,8 @@ package com.example.tourismo.dataclass
 data class TouristDestination(
     val nama: String,
     val deskripsi: String,
-    val url: String
+    val url: String,
+    val errorCode : String
 )
 
 data class TouristDestinationDetails(

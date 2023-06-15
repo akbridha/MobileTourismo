@@ -9,23 +9,31 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tourismo.R
 import com.example.tourismo.databinding.ActivityGoBinding
+import com.example.tourismo.viewmodel.HomeViewModel
+import com.example.tourismo.viewmodel.LoginViewModel
 
 class GoActivity : AppCompatActivity() {
 
     private lateinit var adapter: RecyclerView.Adapter<StringViewHolder>
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var binding : ActivityGoBinding
-//    private lateinit var viewModel :
+    private lateinit var viewModel : HomeViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
+
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            HomeViewModel::class.java)
+
+        viewModel.getAllTourist()
     val color = ContextCompat.getColor(this, R.color.dasar)
     binding.btnHome.setColorFilter(color)
     binding.recyclerView.setHasFixedSize(true)
