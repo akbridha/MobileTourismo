@@ -27,4 +27,18 @@ object RetrofitClient {
         .build()
 
     val apiInstance = retrofit.create(ApiEndpoint::class.java)
+
+//    class ApiHelper(token: String) {
+//        private val httpClient = OkHttpClient.Builder()
+//            .addInterceptor(HeaderInterceptor(token))
+//            .build()
+//
+//        private val retrofit = Retrofit.Builder()
+//            .baseUrl("https://tourismobe-mugv7adrmq-uc.a.run.app/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(httpClient)
+//            .build()
+//
+//        val api = retrofit.create(ApiEndpoint::class.java)
+//    }
 }

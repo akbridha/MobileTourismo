@@ -15,4 +15,6 @@
     <string name="from">From</string>
     <string name="find_ticket">Find Ticket</string>
     <string name="find_ticket_btn">Find Ticket</string>
+    <string name="destination">Destination</string>
+    <string name="explore_flight">Explore Flight</string>
 </resources>

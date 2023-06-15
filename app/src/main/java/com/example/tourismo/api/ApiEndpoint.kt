@@ -4,6 +4,9 @@ package com.example.tourismo.api
 import com.example.tourismo.api.response.ApiResponse
 import com.example.tourismo.api.response.TiketResponse
 import com.example.tourismo.api.response.UploadResponse
+import com.example.tourismo.dataclass.TouristDestination
+import com.example.tourismo.dataclass.TouristDestinationDetails
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -41,6 +44,13 @@ interface ApiEndpoint {
     fun searchTickets(
         @Header("Authorization")  authorization: String,
         @Body requestBody: RequestBody): Call<TiketResponse>
+
+
+    @GET("api/getalltourist")
+    fun getAllTourist(): Call<List<TouristDestination>>
+
+    @POST("api/specifictourist")
+    fun getSpecificTourist(@Body requestBody: JsonObject): Call<TouristDestinationDetails>
 
 //    //Untuk Pencarian User
 //    @GET("search/users")

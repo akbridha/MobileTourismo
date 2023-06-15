@@ -32,12 +32,9 @@ class GoActivity : AppCompatActivity() {
     layoutManager = LinearLayoutManager(this)
     binding.recyclerView.layoutManager = layoutManager
 
-    binding.btnSearch.setOnClickListener{
-        pindahActivity("search")
-    }
-    binding.btnProfile.setOnClickListener {
-        pindahActivity("profil")
-    }
+    binding.btnSearch.setOnClickListener{pindahActivity("search")}
+    binding.btnProfile.setOnClickListener {pindahActivity("profil")}
+    binding.linearlayoutExplore.setOnClickListener{pindahActivity("tiket")}
     val dataList = getListOfItems() // Mendapatkan data daftar string
 
     adapter = StringAdapter(dataList)
@@ -49,13 +46,15 @@ class GoActivity : AppCompatActivity() {
         val animIn = when (direction) {
         "profil" -> R.anim.slide_in_right
         "search" -> R.anim.slide_in_right
-
+        "tiket" -> R.anim.slide_in_up
         else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
     }
 
         val animOut = when (direction) {
             "profil" -> R.anim.slide_out_left
             "search" -> R.anim.slide_out_left
+            "tiket" -> R.anim.slide_out_down
+
 
             else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
         }
@@ -63,6 +62,7 @@ class GoActivity : AppCompatActivity() {
         val intent = when (direction) {
             "profil" -> Intent(this, ProfilActivity::class.java)
             "search" -> Intent(this, ImgdetectActivity::class.java)
+            "tiket" -> Intent(this, FindtickActivity::class.java)
 
             else -> Intent(this, GoActivity()::class.java) // Activity default jika arah tidak valid
         }

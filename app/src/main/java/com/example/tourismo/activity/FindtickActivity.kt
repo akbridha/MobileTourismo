@@ -81,7 +81,7 @@ class FindtickActivity : AppCompatActivity() {
 
     private fun observeHasilTiket() {
         viewModel.getTiketResponseLiveData().observe(this) { tiketResponse ->
-            binding.tvHasilTiket.setText(Gson().toJson(tiketResponse))
+//            binding.tvHasilTiket.setText(Gson().toJson(tiketResponse))
             Log.d("FindtickActivity", Gson().toJson(tiketResponse))
             // Buat Intent
             val intent = Intent(this, TiketActivity::class.java)

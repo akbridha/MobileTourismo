@@ -65,7 +65,7 @@ class ImgdetectActivity : AppCompatActivity() {
 
         binding.btnHome.setOnClickListener{ pindahActivity("home")        }
         binding.btnProfile.setOnClickListener{pindahActivity("profil")        }
-        binding.buttonTiket.setOnClickListener {pindahActivity("tiket") }
+//        binding.buttonTiket.setOnClickListener {pindahActivity("tiket") }
 
         binding.imageView.setOnClickListener { selectPhotoFromGallery() }
         binding.iconChange.setOnClickListener{

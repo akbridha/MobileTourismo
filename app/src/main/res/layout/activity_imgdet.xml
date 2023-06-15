@@ -15,9 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="12dp"
         android:background="@drawable/tealbg"
-        android:ems="20"
         android:gravity="center"
-
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +46,8 @@
         android:layout_margin="10dp"
         android:background="@drawable/dotted_line"
         android:orientation="vertical"
-        android:padding="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
+
             android:background="@drawable/lingkaran"
             android:padding="20dp">
 
@@ -68,12 +67,18 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:clickable="true"
-
                 android:scaleType="centerCrop"
                 android:src="@drawable/camera" />
 
         </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/double_arrow" />
 
         <TextView
             android:id="@+id/tv_instruksi"
@@ -98,7 +103,7 @@
             android:background="@drawable/button"
             android:paddingHorizontal="5dp"
             android:text="@string/find"
-            android:elevation="5dp"
+            android:elevation="15dp"
             android:textColor="@color/white" />
 
 
@@ -125,20 +130,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/button_tiket"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/button"
-        android:elevation="15dp"
-        android:paddingHorizontal="20dp"
-        android:text="@string/find_ticket"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/button_tiket"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:background="@drawable/button"-->
+<!--        android:elevation="15dp"-->
+<!--        android:paddingHorizontal="20dp"-->
+<!--        android:text="@string/find_ticket"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/imageButton"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.498"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
     <LinearLayout
@@ -241,13 +246,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
-        app:layout_constraintEnd_toEndOf="@+id/button_tiket"
-        app:layout_constraintStart_toStartOf="@+id/button_tiket"
-        app:srcCompat="@drawable/double_arrow" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
