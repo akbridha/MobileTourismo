@@ -2,6 +2,7 @@ package com.example.tourismo.api
 
 
 import com.example.tourismo.api.response.ApiResponse
+import com.example.tourismo.api.response.TiketResponse
 import com.example.tourismo.api.response.UploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,9 +33,14 @@ interface ApiEndpoint {
     @Multipart
     @POST("predictimage")
     fun uploadPhoto(
+        @Header("Authorization")  authorization: String,
         @Part image: MultipartBody.Part
     ): Call<UploadResponse>
 
+    @POST("gettiket")
+    fun searchTickets(
+        @Header("Authorization")  authorization: String,
+        @Body requestBody: RequestBody): Call<TiketResponse>
 
 //    //Untuk Pencarian User
 //    @GET("search/users")

@@ -18,14 +18,19 @@
         android:theme="@style/Theme.Tourismo"
         tools:targetApi="31">
         <activity
-            android:name=".activity.ProfilActivity"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".activity.ImgdetectActivity"
-            android:exported="true">
+            android:name=".activity.TiketActivity"
+            android:exported="true" >
 
         </activity>
+        <activity
+            android:name=".activity.FindtickActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProfilActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activity.ImgdetectActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.GoActivity"
             android:exported="true" />

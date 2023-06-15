@@ -12,4 +12,7 @@
     <string name="sign_in">Sign In</string>
     <string name="find">Find</string>
     <string name="Instruksi">Upload your Photo, \n Take or Select from storage</string>
+    <string name="from">From</string>
+    <string name="find_ticket">Find Ticket</string>
+    <string name="find_ticket_btn">Find Ticket</string>
 </resources>

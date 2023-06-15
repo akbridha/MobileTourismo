@@ -3,6 +3,7 @@ package com.example.tourismo.activity
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
@@ -17,9 +18,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
+import com.example.tourismo.databinding.ActivityImgdetBinding
 
 
-import com.example.tourismo.databinding.ActivityUploadBinding
 import com.example.tourismo.viewmodel.ImgdetViewModel
 import java.io.File
 import java.io.IOException
@@ -28,12 +29,11 @@ import java.io.IOException
 
 
 class ImgdetectActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityUploadBinding
+    private lateinit var binding: ActivityImgdetBinding
     private var imageFile: File? = null
     private lateinit var viewModel: ImgdetViewModel
-
+    private lateinit var sharedPreferences: SharedPreferences
     private val READ_EXTERNAL_STORAGE_PERMISSION_REQUEST = 2
-
 
     companion object {
         private const val REQUEST_IMAGE_PICK = 1
@@ -41,10 +41,12 @@ class ImgdetectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUploadBinding.inflate(layoutInflater)
+        binding = ActivityImgdetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+    sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE)
 
+        Log.d(" IMGdetAct", "Hasil token ${sharedPreferences.getString("accessToken", "kosng")}")
 
         binding.tvHasil.visibility= View.INVISIBLE
         binding.imageViewResult.visibility= View.INVISIBLE
@@ -61,17 +63,9 @@ class ImgdetectActivity : AppCompatActivity() {
         //button Navigasi Bawahnya
 
 
-        binding.btnHome.setOnClickListener{
-            pindahActivity("home")
-        }
-        binding.btnProfile.setOnClickListener{
-            pindahActivity("profil")
-        }
-
-
-
-
-
+        binding.btnHome.setOnClickListener{ pindahActivity("home")        }
+        binding.btnProfile.setOnClickListener{pindahActivity("profil")        }
+        binding.buttonTiket.setOnClickListener {pindahActivity("tiket") }
 
         binding.imageView.setOnClickListener { selectPhotoFromGallery() }
         binding.iconChange.setOnClickListener{
@@ -103,12 +97,32 @@ class ImgdetectActivity : AppCompatActivity() {
         viewModel.progressBarVisibility.observe(this, Observer { visibility ->
             binding.progressBarUpload.visibility = visibility
         })
+
+        viewModel.errorMessage.observe(this) { errorMessage ->
+            // Lakukan sesuatu dengan pesan errorMessage di sini
+            Log.d("ImgDetActivity", "Error message: $errorMessage")
+
+            if (errorMessage.contains("{\"error\":\"Unauthorized\"}")){
+                val sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.clear()
+                editor.apply()
+                Toast.makeText(this, "$errorMessage Silahkan Login Ulang", Toast.LENGTH_SHORT)
+                    .show()
+                pindahActivity("login")
+            }else{
+                Toast.makeText(this, "$errorMessage Koneksi Bermasalah", Toast.LENGTH_SHORT).show()
+
+            }
+        }
     }
 
     private fun pindahActivity(direction: String) {
         val animIn = when (direction) {
             "home" -> R.anim.slide_in_left
             "profil" -> R.anim.slide_in_right
+            "tiket" -> R.anim.slide_in_up
+            "login" -> R.anim.slide_in_up
 
             else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
         }
@@ -116,6 +130,8 @@ class ImgdetectActivity : AppCompatActivity() {
         val animOut = when (direction) {
             "home" -> R.anim.slide_out_right
             "profil" -> R.anim.slide_out_left
+            "tiket" -> R.anim.slide_out_down
+            "login" -> R.anim.slide_out_down
 
             else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
         }
@@ -123,6 +139,8 @@ class ImgdetectActivity : AppCompatActivity() {
         val intent = when (direction) {
             "home" -> Intent(this, GoActivity::class.java)
             "profil" -> Intent(this, ProfilActivity::class.java)
+            "tiket" -> Intent(this, FindtickActivity::class.java)
+            "login" -> Intent(this, LoginActivity::class.java)
 
             else -> Intent(this, ImgdetectActivity()::class.java) // Activity default jika arah tidak valid
         }
@@ -135,7 +153,8 @@ class ImgdetectActivity : AppCompatActivity() {
         if (imageFile != null) {
         binding.progressBarUpload.visibility= View.VISIBLE
             Log.d("UploadAct", "Mengupload foto")
-            viewModel.uploadPhoto(imageFile!!)
+            val accessToken = "Bearer "+sharedPreferences.getString("accessToken", "kosng")
+            viewModel.uploadPhoto(imageFile!!, accessToken)
         } else {
             // Image is not selected, show error message
             Toast.makeText(this, "Pilih Gambar terlebih dahulu", Toast.LENGTH_SHORT).show()

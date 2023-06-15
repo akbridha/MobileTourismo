@@ -22,16 +22,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down)
 
         if (isUserLoggedIn()) {
             Log.d("LoginAct", "SF masih ada.. user sdh pernah login")
-            pindahActivityBeranda()
+            pindahActivity("beranda")
         }else {
             Log.d("LoginAct", "SF masih Kosong.. User belum pernah login")
         }
             binding.buttonLogin.setOnClickListener {prosesLogin()}
-        binding.tvRegister.setOnClickListener{ pindahActivityRegister()}
+        binding.tvRegister.setOnClickListener{ pindahActivity("register")}
 
         tandaLoading(false)
 
@@ -91,22 +90,46 @@ class LoginActivity : AppCompatActivity() {
         if (response != null) {
             editor.putBoolean("emailVerified", response.emailVerified)
         }
+
+        if (response != null) {
+            editor.putString("accessToken", response.stsTokenManager.accessToken)
+        }
         // Tambahkan atribut lain yang perlu disimpan
-        editor.commit()
-        pindahActivityBeranda()
+        editor.apply()
+        pindahActivity("beranda")
     }
 
-    private fun pindahActivityBeranda() {
-        startActivity(Intent(this, GoActivity::class.java))
+    private fun pindahActivity(direksi: String) {
+        val animIn = when (direksi) {
+
+            "register" -> R.anim.slide_in_up
+            "beranda" -> R.anim.slide_in_down
+
+            else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
+        }
+
+        val animOut = when (direksi) {
+
+            "register" -> R.anim.slide_out_down
+            "beranda" -> R.anim.slide_out_up
+
+            else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
+        }
+
+        val intent = when (direksi) {
+
+            "register" -> Intent(this, RegisterActivity::class.java)
+            "beranda" -> Intent(this, GoActivity::class.java)
+
+            else -> Intent(this, ImgdetectActivity()::class.java) // Activity default jika arah tidak valid
+        }
+
+        startActivity(intent)
         finish()
-        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+        overridePendingTransition(animIn, animOut)
     }
 
-    private fun pindahActivityRegister() {
-        startActivity(Intent(this, RegisterActivity::class.java))
-        finish()
-        overridePendingTransition(R.anim.slide_out_up, R.anim.slide_in_left)
-    }
+
     private fun prosesLogin() {
 
         // cekdulu sdh diisi atau belum lalu cek format isinya

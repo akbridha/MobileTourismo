@@ -20,7 +20,7 @@ import java.io.File
 class ImgdetViewModel : ViewModel() {
 
     private val apiService: ApiEndpoint = RetrofitClient.apiInstance
-    private val errorMessage = MutableLiveData<String>()
+    val errorMessage = MutableLiveData<String>()
     private val hasilGambar = MutableLiveData<String>()
     val lokasi: LiveData<String>
         get() = hasilGambar
@@ -40,33 +40,34 @@ class ImgdetViewModel : ViewModel() {
         _selectedImageFile.value = imageFile
     }
 
-    fun uploadPhoto(imageFile: File) {
+    fun uploadPhoto(imageFile: File, authHeader: String) {
         val requestFile: RequestBody =
             RequestBody.create(MediaType.parse("image/*"), imageFile)
         val body: MultipartBody.Part =
             MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
 
-        apiService.uploadPhoto(body).enqueue(object : Callback<UploadResponse> {
+        apiService.uploadPhoto(authHeader, body).enqueue(object : Callback<UploadResponse> {
             override fun onResponse(call: Call<UploadResponse>, response: Response<UploadResponse>) {
-                if (response.isSuccessful) {
                     _progressBarVisibility.value = View.INVISIBLE
+                if (response.isSuccessful) {
                     val apiResponse = response.body()
-                    Log.d("VM Upload", "response = $apiResponse")
+                    Log.d("VM imageDetection", "response isSuccesful  $apiResponse")
                     val lokasi = apiResponse?.Lokasi
-                    Log.d("VM Upload", "Is lokasi emty? ${lokasi.isNullOrEmpty()}")
+                    Log.d("VM imageDetection", "Is lokasi emty? ${lokasi.isNullOrEmpty()}")
                     if (lokasi.isNullOrEmpty()) {
                         val errMessage = apiResponse?.error
                         errorMessage.value = errMessage
-                        Log.d("VM Upload", "Response doesn't contain lokasi, and the error message is $errMessage")
+                        Log.d("VM imageDetection", "Response doesn't contain lokasi, and the error message is $errMessage")
                         uploadStatus.value = false
                     } else {
-                        Log.d("VM Upload", "Upload Successful")
+                        Log.d("VM imageDetection", "Upload Successful")
                         hasilGambar.value = lokasi
                         uploadStatus.value = true
                     }
                 } else {
+
                     val errorResponse: String? = response.errorBody()?.string()
-                    Log.d("VM Upload", "Request failed: $errorResponse")
+                    Log.d("VM imageDetection", "Request isNOtSuccesfl: $errorResponse")
                     uploadStatus.value = false
                     errorMessage.value = errorResponse.toString()
                 }
@@ -74,7 +75,7 @@ class ImgdetViewModel : ViewModel() {
 
             override fun onFailure(call: Call<UploadResponse>, t: Throwable) {
                 _progressBarVisibility.value = View.INVISIBLE
-                Log.d("VM Upload", "Request failed: ${t.message}")
+                Log.d("VM imageDetection", "onFailure Request api fail: ${t.message}")
                 uploadStatus.value = false
                 errorMessage.value = t.message.toString()
             }
