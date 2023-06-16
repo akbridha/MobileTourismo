@@ -52,7 +52,9 @@ interface ApiEndpoint {
     ): Call<List<TouristDestination>>
 
     @POST("specifictourist")
-    fun getSpecificTourist(@Body requestBody: JsonObject): Call<TouristDestinationDetails>
+    fun getSpecificTourist(
+        @Header("Authorization")  authorization: String,
+        @Body requestBody: JsonObject): Call<TouristDestinationDetails>
 
 //    //Untuk Pencarian User
 //    @GET("search/users")

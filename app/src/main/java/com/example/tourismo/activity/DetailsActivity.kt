@@ -1,6 +1,7 @@
 package com.example.tourismo.activity
 
 import RetrofitClient
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
@@ -39,12 +40,17 @@ import retrofit2.Response
 import okhttp3.RequestBody
 
 class DetailsActivity : AppCompatActivity() {
-    private val token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3YmFiYWFiYTEwNWFkZDZiM2ZiYjlmZjNmZjVmZTNkY2E0Y2VkYTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2Fwc3RvbmUtYzIzLXBzMTA4IiwiYXVkIjoiY2Fwc3RvbmUtYzIzLXBzMTA4IiwiYXV0aF90aW1lIjoxNjg2ODQ3Mjc3LCJ1c2VyX2lkIjoiVXhrMjhvNVhDYk9hYmhyeHlydnNObWZ2Tnp0MiIsInN1YiI6IlV4azI4bzVYQ2JPYWJocnh5cnZzTm1mdk56dDIiLCJpYXQiOjE2ODY4NDcyNzcsImV4cCI6MTY4Njg1MDg3NywiZW1haWwiOiJkYXIxQGRhdy5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZGFyMUBkYXcuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.jM45mrWNBkScRldZiap4sxyIXTErh9xdMZWa5RQfJemcuZIivSq7xWjNWiwOe4E7vd6KIL7mpmG_EP7pOG2aXUh7StfmV7ngvfFP1Hq4sHEbhn0rSOwxLx9Rwnq6xcl80s9ZrDRN-jP_xBL3e4PIzKDhY288Wz58IeKWXCLHn9-IM36VqUR5rcYJEYuD3N4MT-k1ljqBwjN7KlbKRo13EW3kwx_GqYsFAhKxA2qE6YtFP4qw6cWZSN_N-7beFEUivgElE2Ti58GO1QUmtL6bC-ySouQ9jAPu9vjID4lDzL6wKxUX-wKRNXWySg1eGvaywuhEMIme81yKzwLp_qyqEg"
-    private val apiHelper: ApiEndpoint = RetrofitClient.apiInstance
+  private val apiHelper: ApiEndpoint = RetrofitClient.apiInstance
 
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var accessToken : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val destinationName = intent.getStringExtra("destinationName") // Get the destination id from the intent
+
+        sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE)
+        accessToken = "Bearer "+sharedPreferences.getString("accessToken", "kosng")
+        val context =this
 
         if (destinationName != null) {
             fetchTouristDestinationDetails(destinationName) {
@@ -191,21 +197,31 @@ class DetailsActivity : AppCompatActivity() {
             addProperty("nama", destinationName)
         }
 
-        apiHelper.getSpecificTourist(param).enqueue(object : Callback<TouristDestinationDetails> {
+        apiHelper.getSpecificTourist(accessToken,param).enqueue(object : Callback<TouristDestinationDetails> {
             override fun onResponse(
                 call: Call<TouristDestinationDetails>,
                 response: Response<TouristDestinationDetails>
             ) {
+                Log.d("detailACt", "onResponse")
                 if (response.isSuccessful) {
+                    Log.d("detailACt", "IsSuccesful  ${response.body()}")
                     response.body()?.let { destinationDetails ->
                         onResult(destinationDetails)
                     }
+                }else {
+                    Log.d("detailACt", "IsNOtSuccesful  ${response.errorBody()?.string()}")
                 }
             }
 
+
+
+
+
+
+
             override fun onFailure(call: Call<TouristDestinationDetails>, t: Throwable) {
                 // Handle error
-                Log.d("Beranda act","getDestination fail")
+                Log.d("detail act","getDestination fail")
             }
         })
     }

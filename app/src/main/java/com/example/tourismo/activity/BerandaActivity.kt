@@ -51,8 +51,8 @@ class BerandaActivity : AppCompatActivity() {
     private val apiHelper : ApiEndpoint = RetrofitClient.apiInstance
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var accessToken : String
-    private val token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3YmFiYWFiYTEwNWFkZDZiM2ZiYjlmZjNmZjVmZTNkY2E0Y2VkYTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2Fwc3RvbmUtYzIzLXBzMTA4IiwiYXVkIjoiY2Fwc3RvbmUtYzIzLXBzMTA4IiwiYXV0aF90aW1lIjoxNjg2ODcwNjk2LCJ1c2VyX2lkIjoieUJIODFIQXd2N1BYTkllTHN6eDFHSHhGb1dGMiIsInN1YiI6InlCSDgxSEF3djdQWE5JZUxzengxR0h4Rm9XRjIiLCJpYXQiOjE2ODY4NzA2OTYsImV4cCI6MTY4Njg3NDI5NiwiZW1haWwiOiJkdXIxMUBkYXhhLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJkdXIxMUBkYXhhLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.JkzGmyKUpLA9mRhiz20Ik4vP8Smlos9_Mj-SRiV_4GaI2_BzYyfc5sDv_SPKmZDLvc848EoVHDGPb0GPOeIzWlWyh73j7wa9i5f3Tz1LFmf4H5W0tM6XJQgn8jaxu4_XvGlE3LnMmLKvR3Bh-GO1Q1wxzo9vulX44CLJQ8qIlFRowVEr35jSdrV9SI3DMrN2rzNpzUzhDG0pn8H30mHfnKLKnT8fzd24V3U0V4wOAVA1tjBI3G6LfXKtIdOktlKTAmFQs7B48xxrZ8YMgAqSTCWpOww9UoLOlSq7vGP6O3W3rBowCnNma6LqZQMAfGJQ4PqFnJI0rqyAfLCj6ooHIw"
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE)
@@ -158,8 +158,8 @@ class BerandaActivity : AppCompatActivity() {
 
                 Button(
                     onClick = {
-//                        val intent = Intent(context, ExploreFlightActivity::class.java)
-//                        context.startActivity(intent)
+                        val intent = Intent(context, FindtickActivity::class.java)
+                        context.startActivity(intent)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -168,6 +168,13 @@ class BerandaActivity : AppCompatActivity() {
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
                 ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.planebulk),
+                        contentDescription = "Home",
+                        modifier = Modifier
+                            .size(25.dp),
+                        tint = colorResource(id = R.color.dasar)
+                    )
                     Text("Explore Flight", style = MaterialTheme.typography.h5,)
                 }
                 destinations.forEachIndexed { index, destination ->

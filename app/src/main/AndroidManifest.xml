@@ -18,27 +18,6 @@
         android:theme="@style/Theme.Tourismo"
         tools:targetApi="31">
         <activity
-            android:name=".activity.TiketActivity"
-            android:exported="true" >
-
-        </activity>
-        <activity
-            android:name=".activity.FindtickActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ProfilActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.ImgdetectActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.GoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activity.RegisterActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
             android:name=".activity.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -50,11 +29,36 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".activity.BerandaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.LoginActivity"
-            android:exported="true"
+            android:name=".activity.ImgdetectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.DetailsActivity"
+            android:exported="false" >
+
+        </activity>        <activity
+            android:name=".activity.TiketActivity"
+            android:exported="false" >
+
+        </activity>
+        <activity
+            android:name=".activity.FindtickActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.GoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MainActivity"
