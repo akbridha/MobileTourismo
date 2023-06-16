@@ -137,7 +137,7 @@ class ImgdetectActivity : AppCompatActivity() {
         }
 
         val intent = when (direction) {
-            "home" -> Intent(this, GoActivity::class.java)
+            "home" -> Intent(this, BerandaActivity::class.java)
             "profil" -> Intent(this, ProfilActivity::class.java)
             "tiket" -> Intent(this, FindtickActivity::class.java)
             "login" -> Intent(this, LoginActivity::class.java)

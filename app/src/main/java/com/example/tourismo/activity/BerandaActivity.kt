@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.tourismo.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
@@ -135,6 +137,7 @@ class BerandaActivity : AppCompatActivity() {
     }
 
 
+
     @Composable
 
     fun HomePage(destinations: List<TouristDestination>) {
@@ -142,7 +145,7 @@ class BerandaActivity : AppCompatActivity() {
         val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
-
+                .padding(bottom = 25.dp)
                 .fillMaxSize()
         ) {
             Column(
@@ -179,48 +182,163 @@ class BerandaActivity : AppCompatActivity() {
                 }
             }
 
+            Surface(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(100.dp)) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-
-                    .height(80.dp)
-                    .border( // Add this line
-                        width = 1.dp, // Set the border width
-                        color = colorResource(R.color.grey), // Set the border color
-                        shape = RoundedCornerShape(100.dp) // Set the border shape, use RectangleShape for a simple line border
+                    .padding(horizontal = 4.dp)
+                    .height(67.dp)
+                    .border(
+                        width = 1.dp,
+                        color = colorResource(R.color.grey_border),
+                        shape = RoundedCornerShape(100.dp)
                     ),
-
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
+                        .padding(bottom = 10.dp)
                 ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .padding(horizontal = 13.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.home),
+                            contentDescription = "Home",
+                            modifier = Modifier
+                                .size(25.dp),
+                            tint = colorResource(id = R.color.dasar)
+                        )
+                        Text(
+                            text = "Home",
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(horizontal = 25.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .padding(horizontal = 13.dp)
+                            .clickable {
+                                val intent =
+                                    Intent(this@BerandaActivity, ImgdetectActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                                overridePendingTransition(
+                                    R.anim.slide_in_right,
+                                    R.anim.slide_out_left
+                                )
+                            }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "Search",
+                            modifier = Modifier.size(25.dp)
+                        )
+                        Text(
+                            text = "Search",
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(horizontal = 25.dp),
 
-                    Text(
-                        text = "Home",
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
-                            .padding( 4.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Search",
-                        modifier = Modifier
-                            .padding( 4.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Profile",
-                        modifier = Modifier
-                            .padding( 4.dp),
-                        textAlign = TextAlign.Center
-                    )
+                            .padding(horizontal = 13.dp)
+                            .clickable {
+                                val intent =
+                                    Intent(this@BerandaActivity, ProfilActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                                overridePendingTransition(
+                                    R.anim.slide_in_right,
+                                    R.anim.slide_out_left
+                                )
+                            }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.person),
+                            contentDescription = "Profile",
+                            modifier = Modifier.size(25.dp)
+                        )
+                        Text(
+                            text = "Profile",
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(horizontal = 25.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
+        }
 
         }
     }
+
+//    @Preview
+//    @Composable
+//    fun BoxPreview() {
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 4.dp)
+//                .height(80.dp)
+//                .border(
+//                    width = 1.dp,
+//                    color = colorResource(R.color.grey_border),
+//                    shape = RoundedCornerShape(100.dp)
+//                ),
+//            contentAlignment = Alignment.BottomCenter
+//        ) {
+//            Row(
+//                modifier = Modifier
+//                    .padding(horizontal = 5.dp)
+//                    .padding(bottom =15.dp)
+//            ) {
+//                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                    Icon(painter = painterResource(id = R.drawable.home),
+//                        contentDescription = "Home", modifier = Modifier.size(45.dp))
+//                    Text(
+//                        text = "Home",
+//                        modifier = Modifier
+//                            .padding(horizontal = 25.dp),
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+//                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                    Icon(painter = painterResource(id = R.drawable.search),
+//                        contentDescription = "Search", modifier = Modifier.size(45.dp))
+//                    Text(
+//                        text = "Search",
+//                        modifier = Modifier
+//                            .padding(horizontal = 25.dp),
+//
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+//                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//                    Icon(painter = painterResource(id = R.drawable.person),
+//                        contentDescription = "Profile", modifier = Modifier.size(45.dp))
+//                    Text(
+//                        text = "Profile",
+//                        modifier = Modifier
+//                            .padding(horizontal = 25.dp),
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+//            }
+//        }
+//    }
 
     @Composable
     fun CustomTheme(content: @Composable () -> Unit) {

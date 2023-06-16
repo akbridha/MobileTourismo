@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#8F8F8F</color>
+    <color name="grey_border">#D6D6D6</color>
+
     <color name="white_grey">#FFFFFF</color>
     <color name="blue">#231CF3</color>
     <color name="dasar">#4755FD</color>
