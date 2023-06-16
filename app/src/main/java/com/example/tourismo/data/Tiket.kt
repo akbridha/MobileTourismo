@@ -4,5 +4,7 @@ data class Tiket(
     val days: Int,
     val departure: String,
     val arrival: String,
-    val urlGambar: String
+    val urlGambar: String,
+    val tglBeliEko: String,
+    val tglBeliBis: String
 )

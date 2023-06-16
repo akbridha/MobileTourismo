@@ -43,6 +43,8 @@ class TiketActivity : AppCompatActivity() {
         val tiketList = mutableListOf<Tiket>()
 
         // Ambil data bisnis dan tambahkan ke tiketList
+        val tglBisnis = tiketResponseObj.tanggalBeliBisnis
+        val tglEkonomi = tiketResponseObj.tanggalBeliEkonomi
         tiketResponseObj.maskapai?.bisnis?.let { bisnis ->
             bisnis.forEach { tiket ->
                 tiketList.add(
@@ -52,13 +54,17 @@ class TiketActivity : AppCompatActivity() {
                         tiket.day,
                         tiket.departure,
                         tiket.arrival,
-                        tiket.urlGambar
+                        tiket.urlGambar,
+                        tglEkonomi,
+                        tglBisnis
+
                     )
                 )
             }
         }
 
         // Ambil data ekonomi dan tambahkan ke tiketList
+
         tiketResponseObj.maskapai?.ekonomi?.let { ekonomi ->
             ekonomi.forEach { tiket ->
                 tiketList.add(
@@ -68,7 +74,9 @@ class TiketActivity : AppCompatActivity() {
                         tiket.day,
                         tiket.departure,
                         tiket.arrival,
-                        tiket.urlGambar
+                        tiket.urlGambar,
+                        tglEkonomi,
+                        tglBisnis
                     )
                 )
             }
@@ -97,9 +105,10 @@ class TiketActivity : AppCompatActivity() {
 
             fun bind(tiket: Tiket) {
                 Picasso.get().load(tiket.urlGambar).into(binding.imageView)
-                binding.textView1.text = tiket.airlines
-                binding.textView2.text = "${tiket.days} days before \nyour schedule"
-                binding.textView3.text = tiket.namaObjek
+                binding.tvMaskapai.text = tiket.airlines
+                binding.tvDay.text = "${tiket.days} days before your schedule"
+                binding.tvTanggal.text = "Your Schedulue is ${tiket.tglBeliEko}"
+                binding.tvKelas.text = tiket.namaObjek
             }
         }
     }

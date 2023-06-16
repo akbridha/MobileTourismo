@@ -2,6 +2,7 @@ package com.example.tourismo.activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -15,6 +16,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.tourismo.R
@@ -34,9 +36,12 @@ class ImgdetectActivity : AppCompatActivity() {
     private lateinit var viewModel: ImgdetViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private val READ_EXTERNAL_STORAGE_PERMISSION_REQUEST = 2
+    private var currentPhotoPath: String? = null
 
     companion object {
         private const val REQUEST_IMAGE_PICK = 1
+        private const val REQUEST_IMAGE_CAPTURE = 2
+        private const val CAMERA_PERMISSION_REQUEST = 3
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,11 +70,9 @@ class ImgdetectActivity : AppCompatActivity() {
 
         binding.btnHome.setOnClickListener{ pindahActivity("home")        }
         binding.btnProfile.setOnClickListener{pindahActivity("profil")        }
-//        binding.buttonTiket.setOnClickListener {pindahActivity("tiket") }
 
-        binding.imageView.setOnClickListener { selectPhotoFromGallery() }
-        binding.iconChange.setOnClickListener{
-            selectPhotoFromGallery()
+        binding.imageView.setOnClickListener { selectPhoto() }
+        binding.iconChange.setOnClickListener{ selectPhoto()
             binding.tvHasil.visibility= View.INVISIBLE }
         binding.buttonFind.setOnClickListener {uploadPhoto()}
         viewModel.selectedImageFile.observe(this, Observer { file ->
@@ -168,6 +171,10 @@ class ImgdetectActivity : AppCompatActivity() {
         )
         return result == PackageManager.PERMISSION_GRANTED
     }
+    private fun checkCameraPermission(): Boolean {
+        val result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
 
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
@@ -176,7 +183,26 @@ class ImgdetectActivity : AppCompatActivity() {
             READ_EXTERNAL_STORAGE_PERMISSION_REQUEST
         )
     }
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.CAMERA),
+            CAMERA_PERMISSION_REQUEST
+        )
+    }
 
+    private fun selectPhoto() {
+        val items = arrayOf("Take Photo", "Choose from Gallery")
+        AlertDialog.Builder(this)
+            .setTitle("Select Photo")
+            .setItems(items) { _, which ->
+                when (which) {
+                    0 -> takePhotoFromCamera()
+                    1 -> selectPhotoFromGallery()
+                }
+            }
+            .show()
+    }
     private fun selectPhotoFromGallery() {
         if (checkPermission()) {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -187,22 +213,61 @@ class ImgdetectActivity : AppCompatActivity() {
         }
     }
 
+    private fun takePhotoFromCamera() {
+        if (checkCameraPermission()) {
+
+
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (intent.resolveActivity(packageManager) != null) {
+                var photoFile: File? = null
+                try {
+                    photoFile = createImageFile()
+                    if (photoFile != null) {
+                        currentPhotoPath = photoFile.absolutePath
+                    }
+                } catch (ex: IOException) {
+                    // Handle error
+                }
+                if (photoFile != null) {
+                    val photoURI = FileProvider.getUriForFile(
+                        this,
+                        "com.example.android.fileprovider",
+                        photoFile
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+        } else {
+            requestCameraPermission()
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
-            val uri: Uri? = data?.data
-            if (uri != null) {
-                try {
-                    val inputStream = contentResolver.openInputStream(uri)
-                    imageFile = createImageFile()
-                    inputStream?.let { input ->
-                        imageFile?.let { file ->
-                            file.copyInputStreamToFile(input)
-                            viewModel.selectImage(file)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    // Handle the captured image
+                    imageFile = currentPhotoPath?.let { File(it) }
+                    imageFile?.let { viewModel.selectImage(it) }
+                }
+                REQUEST_IMAGE_PICK -> {
+                    // Handle the selected image from the local storage
+                    val uri: Uri? = data?.data
+                    if (uri != null) {
+                        try {
+                            val inputStream = contentResolver.openInputStream(uri)
+                            imageFile = createImageFile()
+                            inputStream?.let { input ->
+                                imageFile?.let { file ->
+                                    file.copyInputStreamToFile(input)
+                                    viewModel.selectImage(file)
+                                }
+                            }
+                        } catch (e: IOException) {
+                            e.printStackTrace()
                         }
                     }
-                } catch (e: IOException) {
-                    e.printStackTrace()
                 }
             }
         }

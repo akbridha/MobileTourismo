@@ -17,4 +17,8 @@
     <string name="find_ticket_btn">Find Ticket</string>
     <string name="destination">Destination</string>
     <string name="explore_flight">Explore Flight</string>
+    <string name="about_us">At Tourismo, we understand the challenges that travelers face when it comes to planning their vacations. Our mission is to simplify the process of travel planning and provide easy access to information about various tourism places. We believe that everyone should have the opportunity to explore the world without the stress and uncertainty of ticket prices and limited knowledge about destinations.
+        \nOur app is designed to address these challenges by accurately predicting the best time to buy plane tickets based on your selected holiday period and budget. With our advanced algorithms, you can make informed decisions and secure affordable prices, ensuring that you get the most out of your travel experience.
+        \n In addition to helping you find the perfect time to book your flights, our app also provides quick and comprehensive information about tourism places. Whether you\'re looking for popular attractions, local customs, or hidden gems, Tourismo has got you covered. We strive to empower travelers with valuable insights, allowing them to make the most of their time and create unforgettable memories.
+        \nJoin us on this adventure and let Tourismo be your trusted companion in planning your next travel escapade. Our team of passionate travel enthusiasts is dedicated to providing you with a seamless and enjoyable experience. Start your journey today with Tourismo and unlock the world of endless possibilities.</string>
 </resources>

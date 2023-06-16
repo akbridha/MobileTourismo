@@ -45,7 +45,7 @@ class ProfilActivity : AppCompatActivity() {
 
         val listView = binding.listView
 
-        val items = listOf("Change Password", "About Us", "Log Out")
+        val items = listOf( "About Us", "Log Out")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, items)
         listView.adapter = adapter
@@ -58,7 +58,7 @@ class ProfilActivity : AppCompatActivity() {
                     Toast.makeText(this,"Menuju opsi Change password", Toast.LENGTH_SHORT).show()
                 }
                 "About Us" -> {
-                    Toast.makeText(this,"Menuju laman About Us", Toast.LENGTH_SHORT).show()
+                   pindahActivity("about")
                 }
                 "Log Out" -> {
 
@@ -96,6 +96,7 @@ class ProfilActivity : AppCompatActivity() {
             "search" -> R.anim.slide_in_left
             "home" -> R.anim.slide_in_left
             "login" -> R.anim.slide_in_down
+            "about" -> R.anim.slide_in_down
             else -> R.anim.slide_in_left // Nilai default jika arah tidak valid
         }
 
@@ -103,6 +104,7 @@ class ProfilActivity : AppCompatActivity() {
             "search" -> R.anim.slide_out_right
             "home" -> R.anim.slide_out_right
             "login" -> R.anim.slide_out_up
+            "About" -> R.anim.slide_out_up
             else -> R.anim.slide_out_right // Nilai default jika arah tidak valid
         }
 
@@ -110,6 +112,7 @@ class ProfilActivity : AppCompatActivity() {
             "search" -> Intent(this, ImgdetectActivity::class.java)
             "home" -> Intent(this, BerandaActivity::class.java)
             "login" -> Intent(this, LoginActivity::class.java)
+            "about" -> Intent(this, AboutUsActivity::class.java)
             else -> Intent(this, ProfilActivity::class.java) // Activity default jika arah tidak valid
         }
 
