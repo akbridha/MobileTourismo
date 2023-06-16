@@ -27,49 +27,49 @@ class HomeViewModel : ViewModel(){
 
 
 
-        apiService.getAllTourist().enqueue(object : Callback<List<TouristDestination>> {
-            override fun onResponse(
-                call: Call<List<TouristDestination>>,
-                response: Response<List<TouristDestination>>
-            ) {
-                if (response.isSuccessful) {
-                    val onResponseData = response.body()
-                    Log.d("VM login", "respons = $onResponseData")
-
-//                    Log.d("VM login", "apakah uid kosong ? ${ onResponseData?.nama.isNullOrEmpty()}")
-//                    if ( onResponseData?.nama.isNullOrEmpty()){
-//                        val errmessage = onResponseData?.errorCode
-//                        errorMessage.value = errmessage
-//                        Log.d("VM Login User", "response tidak terdapat uid, dan response errornya dalah $errmessage")
-//                        Log.d("VM login", "Login Gagal")
-//                        loginStatus.value = false
-//                    }else{
-//                        Log.d("VM login", "Login Sukses")
-//                        loginStatus.value = true
-//                        setApiResponse(onResponseData)
-//                    }
-                } else {
-                    // Tangkap pesan error dari response.errorBody() sebagai string
-                    val errorResponse: String? = response.errorBody()?.string()
-                    Log.d("VM Login", "Request failed "+ errorResponse.toString())
-                    loginStatus.value = false
-                    errorMessage.value = errorResponse.toString()
-                }
-            }
-
-            override fun onFailure(call: Call<List<TouristDestination>>, t: Throwable) {
-                Log.d("VM Login", "Request failed: ${t.message}")
-                loginStatus.value = false
-                errorMessage.value = t.message.toString()
-            }
-
+//        apiService.getAllTourist().enqueue(object : Callback<List<TouristDestination>> {
 //            override fun onResponse(
 //                call: Call<List<TouristDestination>>,
 //                response: Response<List<TouristDestination>>
 //            ) {
-//                TODO("Not yet implemented")
+//                if (response.isSuccessful) {
+//                    val onResponseData = response.body()
+//                    Log.d("VM Home", "respons = $onResponseData")
+//
+////                    Log.d("VM login", "apakah uid kosong ? ${ onResponseData?.nama.isNullOrEmpty()}")
+////                    if ( onResponseData?.nama.isNullOrEmpty()){
+////                        val errmessage = onResponseData?.errorCode
+////                        errorMessage.value = errmessage
+////                        Log.d("VM Login User", "response tidak terdapat uid, dan response errornya dalah $errmessage")
+////                        Log.d("VM login", "Login Gagal")
+////                        loginStatus.value = false
+////                    }else{
+////                        Log.d("VM login", "Login Sukses")
+////                        loginStatus.value = true
+////                        setApiResponse(onResponseData)
+////                    }
+//                } else {
+//                    // Tangkap pesan error dari response.errorBody() sebagai string
+//                    val errorResponse: String? = response.errorBody()?.string()
+//                    Log.d("VM Login", "Request failed "+ errorResponse.toString())
+//                    loginStatus.value = false
+//                    errorMessage.value = errorResponse.toString()
+//                }
 //            }
-        })
+//
+//            override fun onFailure(call: Call<List<TouristDestination>>, t: Throwable) {
+//                Log.d("VM Login", "Request failed: ${t.message}")
+//                loginStatus.value = false
+//                errorMessage.value = t.message.toString()
+//            }
+//
+////            override fun onResponse(
+////                call: Call<List<TouristDestination>>,
+////                response: Response<List<TouristDestination>>
+////            ) {
+////                TODO("Not yet implemented")
+////            }
+//        })
 
     }
 

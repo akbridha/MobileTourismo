@@ -16,9 +16,9 @@ object RetrofitClient {
         .setLenient()
         .create()
 
-    val httpClient = OkHttpClient.Builder()
-        .addInterceptor(HeaderInterceptor())
-        .build()
+//    val httpClient = OkHttpClient.Builder()
+//        .addInterceptor(HeaderInterceptor())
+//        .build()
 
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)

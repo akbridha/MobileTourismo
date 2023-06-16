@@ -119,7 +119,7 @@ class LoginActivity : AppCompatActivity() {
         val intent = when (direksi) {
 
             "register" -> Intent(this, RegisterActivity::class.java)
-            "beranda" -> Intent(this, GoActivity::class.java)
+            "beranda" -> Intent(this, BerandaActivity::class.java)
 
             else -> Intent(this, ImgdetectActivity()::class.java) // Activity default jika arah tidak valid
         }

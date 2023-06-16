@@ -46,10 +46,12 @@ interface ApiEndpoint {
         @Body requestBody: RequestBody): Call<TiketResponse>
 
 
-    @GET("api/getalltourist")
-    fun getAllTourist(): Call<List<TouristDestination>>
+    @GET("getalltourist")
+    fun getAllTourist(
+        @Header("Authorization")  authorization: String
+    ): Call<List<TouristDestination>>
 
-    @POST("api/specifictourist")
+    @POST("specifictourist")
     fun getSpecificTourist(@Body requestBody: JsonObject): Call<TouristDestinationDetails>
 
 //    //Untuk Pencarian User

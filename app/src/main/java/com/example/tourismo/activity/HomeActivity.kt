@@ -33,7 +33,7 @@ class GoActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
             HomeViewModel::class.java)
 
-        viewModel.getAllTourist()
+//        viewModel.getAllTourist()
     val color = ContextCompat.getColor(this, R.color.dasar)
     binding.btnHome.setColorFilter(color)
     binding.recyclerView.setHasFixedSize(true)

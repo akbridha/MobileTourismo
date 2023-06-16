@@ -1,16 +1,306 @@
 package com.example.tourismo.activity
 
+import RetrofitClient
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.style.TextAlign
 import com.example.tourismo.R
-import com.example.tourismo.databinding.ActivityBerandaBinding
+import coil.compose.rememberImagePainter
+import coil.size.Scale
+import com.example.tourismo.api.ApiEndpoint
+import com.example.tourismo.api.HeaderInterceptor
+import com.example.tourismo.dataclass.TouristDestination
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+
 class BerandaActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBerandaBinding
+    private val apiHelper : ApiEndpoint = RetrofitClient.apiInstance
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var accessToken : String
+    private val token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjY3YmFiYWFiYTEwNWFkZDZiM2ZiYjlmZjNmZjVmZTNkY2E0Y2VkYTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2Fwc3RvbmUtYzIzLXBzMTA4IiwiYXVkIjoiY2Fwc3RvbmUtYzIzLXBzMTA4IiwiYXV0aF90aW1lIjoxNjg2ODcwNjk2LCJ1c2VyX2lkIjoieUJIODFIQXd2N1BYTkllTHN6eDFHSHhGb1dGMiIsInN1YiI6InlCSDgxSEF3djdQWE5JZUxzengxR0h4Rm9XRjIiLCJpYXQiOjE2ODY4NzA2OTYsImV4cCI6MTY4Njg3NDI5NiwiZW1haWwiOiJkdXIxMUBkYXhhLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJkdXIxMUBkYXhhLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.JkzGmyKUpLA9mRhiz20Ik4vP8Smlos9_Mj-SRiV_4GaI2_BzYyfc5sDv_SPKmZDLvc848EoVHDGPb0GPOeIzWlWyh73j7wa9i5f3Tz1LFmf4H5W0tM6XJQgn8jaxu4_XvGlE3LnMmLKvR3Bh-GO1Q1wxzo9vulX44CLJQ8qIlFRowVEr35jSdrV9SI3DMrN2rzNpzUzhDG0pn8H30mHfnKLKnT8fzd24V3U0V4wOAVA1tjBI3G6LfXKtIdOktlKTAmFQs7B48xxrZ8YMgAqSTCWpOww9UoLOlSq7vGP6O3W3rBowCnNma6LqZQMAfGJQ4PqFnJI0rqyAfLCj6ooHIw"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBerandaBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+    sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE)
+    accessToken = "Bearer "+sharedPreferences.getString("accessToken", "kosng")
+        val context =this
+        fetchTouristDestinations(context){ destinations ->
+            setContent {
+                CustomTheme {
+                    Surface(modifier = Modifier.fillMaxSize()) {
+                        HomePage(destinations)
+                    }
+                }
+            }
+        }
     }
+
+    @Composable
+    fun DestinationItem(
+        destination: TouristDestination,
+        isImageOnRight: Boolean,
+        function: () -> Unit
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth()
+                .height(135.dp)
+                .clickable(onClick = function),
+            horizontalArrangement = if (isImageOnRight) Arrangement.End else Arrangement.Start
+        ) {
+            if (!isImageOnRight) {
+                Image(
+                    painter = rememberImagePainter(
+                        data = destination.url,
+                        builder = {
+                            size(200) // Set the desired size to 100 pixels
+                            scale(Scale.FILL) // Scale the image to fill the given dimensions
+                        }
+                    ),
+                    contentDescription = destination.nama,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .size(165.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
+                Spacer(Modifier.width(24.dp))
+            }
+
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 0.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(formatTitle(destination.nama), style = MaterialTheme.typography.h6)
+                Text(
+                    destination.deskripsi,
+                    style = MaterialTheme.typography.body2,
+                    maxLines = 6,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+
+            if (isImageOnRight) {
+                Spacer(Modifier.width(24.dp))
+                Image(
+                    painter = rememberImagePainter(
+                        data = destination.url,
+                        builder = {
+                            size(200) // Set the desired size to 100 pixels
+                            scale(Scale.FILL) // Scale the image to fill the given dimensions
+                        }
+                    ),
+                    contentDescription = destination.nama,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .size(165.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
+            }
+        }
+    }
+
+
+    @Composable
+
+    fun HomePage(destinations: List<TouristDestination>) {
+        val context = LocalContext.current
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = Modifier
+
+                .fillMaxSize()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(bottom = 16.dp)
+                    .verticalScroll(scrollState)
+            ) {
+
+                Button(
+                    onClick = {
+//                        val intent = Intent(context, ExploreFlightActivity::class.java)
+//                        context.startActivity(intent)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp)
+                        .border(1.dp, Color.Black, RoundedCornerShape(10.dp)),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.White)
+                ) {
+                    Text("Explore Flight", style = MaterialTheme.typography.h5,)
+                }
+                destinations.forEachIndexed { index, destination ->
+                    DestinationItem(destination, isImageOnRight = index % 2 != 1) {
+                        val intent = Intent(context, DetailsActivity::class.java)
+                        intent.putExtra(
+                            "destinationName",
+                            destination.nama
+                        ) // Pass the destination id to DetailsActivity
+                        context.startActivity(intent)
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+
+                    .height(80.dp)
+                    .border( // Add this line
+                        width = 1.dp, // Set the border width
+                        color = colorResource(R.color.grey), // Set the border color
+                        shape = RoundedCornerShape(100.dp) // Set the border shape, use RectangleShape for a simple line border
+                    ),
+
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                ) {
+
+                    Text(
+                        text = "Home",
+                        modifier = Modifier
+                            .padding( 4.dp),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Search",
+                        modifier = Modifier
+                            .padding( 4.dp),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Profile",
+                        modifier = Modifier
+                            .padding( 4.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+        }
+    }
+
+    @Composable
+    fun CustomTheme(content: @Composable () -> Unit) {
+        val typography = Typography(
+            h6 = TextStyle(
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)),
+                fontSize = 20.sp,
+                color = Color(0xFF807BFE)
+            ),
+            body2 = TextStyle(
+                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                fontSize = 14.sp
+            ),
+            h5 = TextStyle(
+                fontFamily = FontFamily(Font(R.font.raleway)),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF000000)
+            ),
+        )
+
+        MaterialTheme(
+            typography = typography,
+            content = content
+        )
+    }
+
+
+    // HELPERS
+
+    private fun fetchTouristDestinations(context: Context, onResult: (List<TouristDestination>) -> Unit) {
+
+        apiHelper.getAllTourist(accessToken).enqueue(object : Callback<List<TouristDestination>> {
+            override fun onResponse(
+                call: Call<List<TouristDestination>>,
+                response: Response<List<TouristDestination>>
+            ) {
+                Log.d("BerandaACt", "onResponse")
+                if (response.isSuccessful) {
+                    response.body()?.let { onResult(it) }
+                    Log.d("BerandaACt", "IsSuccesful  ${response.body()}")
+                }else
+                {
+                Log.d("BerandaACt", "IsNOtSuccesful  ${response.errorBody()?.string()}")
+
+
+                 //dalam kasus unauth.. kedepannya perlu handling
+                    val sharedPreferences = getSharedPreferences("MySharedPrefs", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.clear()
+                    editor.apply()
+
+                    val intent = Intent(context, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+
+            override fun onFailure(call: Call<List<TouristDestination>>, t: Throwable) {
+                // Handle error
+                Log.d("BerandaACt", "onFailure")
+            }
+        })
+    }
+
+    fun formatTitle(title: String): String {
+        val formattedTitle = StringBuilder()
+        val words = title.split("(?<=.)(?=\\p{Lu})".toRegex())
+
+        words.forEachIndexed { index, word ->
+            if (index > 0) {
+                formattedTitle.append(" ")
+            }
+            formattedTitle.append(word.capitalize())
+        }
+
+        return formattedTitle.toString()
+    }
+
+
+
+
+
 }

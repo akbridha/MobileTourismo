@@ -55,7 +55,7 @@ class LoginViewModel : ViewModel(){
                 } else {
                     // Tangkap pesan error dari response.errorBody() sebagai string
                     val errorResponse: String? = response.errorBody()?.string()
-                    Log.d("VM Login", "Request failed "+ errorResponse.toString())
+                    Log.d("VM Login", "onRespons isnotSuccess "+ errorResponse.toString())
                     loginStatus.value = false
                     errorMessage.value = errorResponse.toString()
                 }
